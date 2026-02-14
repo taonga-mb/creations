@@ -1,0 +1,194 @@
+body{
+    background-color: rgb(163, 85, 128);
+    text-align: center;
+    font-family: 'Arial', sans-serif;
+    background-image: url("./images/Free\ Floral\ Phone\ Wallpapers\ -\ Curated\ by\ Michelle.jpeg");
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center center;
+    padding-top: 200px;
+}
+
+.page{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    min-height:100vh;
+}
+
+.letter{
+    width:360px;
+    max-width:90%;
+    perspective:1200px;
+}
+
+.cover{
+    background:#fff7f9;
+    border:2px solid #f2c1d1;
+    padding:24px;
+    border-radius:12px;
+    box-shadow:0 8px 30px rgba(0,0,0,0.15);
+}
+
+#toggle{
+    margin-top:12px;
+    padding:10px 16px;
+    border-radius:8px;
+    border:1px solid #d98ca1;
+    background:#ff7b9c;
+    color:white;
+    cursor:pointer;
+}
+
+.letter-content{
+    margin-top:16px;
+    background:rgba(255,255,255,0.95);
+    padding:20px;
+    border-radius:8px;
+    transform-origin:top center;
+    transform:rotateX(-90deg);
+    transition:transform 600ms cubic-bezier(.2,.9,.3,1), opacity 300ms;
+    opacity:0;
+}
+
+.letter.open .letter-content{
+    transform:rotateX(0deg);
+    opacity:1;
+}
+
+.video-container{
+    margin-top:20px;
+    padding:16px;
+    background:#fff7f9;
+    border:2px solid #f2c1d1;
+    border-radius:12px;
+    box-shadow:0 8px 30px rgba(0,0,0,0.15);
+    display:flex;
+    justify-content:center;
+}
+
+.video-container video{
+    max-width:100%;
+    height:auto;
+    border-radius:8px;
+    box-shadow:0 4px 15px rgba(255,123,156,0.3);
+}
+
+@media (max-width:480px){
+    .cover{padding:16px}
+    #toggle{width:100%}
+    .video-container{padding:12px}
+}
+
+/* Book-style layout */
+.book-wrap{display:flex;justify-content:center;padding:20px 12px}
+.book{
+    width:900px;
+    max-width:95%;
+    height:520px;
+    display:flex;
+    gap:6px;
+    perspective:1500px;
+    align-items:stretch;
+}
+/* ensure book is positioned for absolute cover */
+.book{position:relative}
+.book .leaf{
+    flex:1 1 50%;
+    background:linear-gradient(#ffffff,#fff7f9);
+    border:1px solid #f2c1d1;
+    border-radius:6px;
+    padding:28px;
+    box-shadow:0 10px 30px rgba(0,0,0,0.12);
+    transform-style:preserve-3d;
+    transition:transform 700ms cubic-bezier(.2,.9,.3,1), box-shadow 300ms;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+}
+.book .leaf.left{transform-origin:right center;}
+.book .leaf.right{transform-origin:left center;}
+.book.closed .leaf.left{transform:rotateY(-88deg);box-shadow:none}
+.book.closed .leaf.right{transform:rotateY(88deg);box-shadow:none}
+
+/* small responsive tweaks */
+@media (max-width:900px){
+    .book{height:auto;flex-direction:column}
+    .book .leaf{transform:none}
+}
+
+/* toggle button */
+#toggleBook, #toggleBook:focus{padding:10px 16px;border-radius:8px;border:1px solid #d98ca1;background:#ff7b9c;color:#fff;cursor:pointer}
+
+/* ensure video scales nicely inside right leaf */
+.book .video-container{background:transparent;border:0;box-shadow:none;padding:0;margin:0;height:100%;display:flex;align-items:center;justify-content:center}
+.book .video-container video{max-width:100%;max-height:100%;object-fit:contain;border-radius:6px}
+
+/* Page flip internals */
+.leaf{position:relative;overflow:visible;padding:0}
+.leaf .page{position:absolute;inset:0;padding:28px;backface-visibility:hidden;transform-style:preserve-3d;border-radius:6px}
+.leaf .front{z-index:2}
+.leaf .back{transform:rotateY(180deg);background:linear-gradient(#fff7f9,#ffffff);display:flex;align-items:center;justify-content:center}
+
+/* flipping states */
+.leaf.right.turned{transform:rotateY(-180deg);z-index:1}
+.leaf.left.turned{transform:rotateY(180deg);z-index:1}
+
+/* quick hint pointer */
+.leaf{cursor:pointer}
+
+@media (max-width:900px){
+    .leaf .page{position:relative;padding:18px}
+    .leaf{cursor:default;transform:none}
+}
+
+/* Scroll layout */
+.scroll-wrap{display:flex;flex-direction:column;align-items:center;padding:40px 12px}
+.scroll{width:900px;max-width:95%;height:420px;display:flex;align-items:center;justify-content:center;position:relative}
+.rod{width:24px;background:#8b5e5e;height:100%;border-radius:12px;box-shadow:inset 0 4px 6px rgba(0,0,0,0.2)}
+.left-rod{margin-right:12px}
+.right-rod{margin-left:12px}
+.parchment{background:linear-gradient(180deg,#fff9ee,#fff2d9);border:2px solid #e6d6c2;border-radius:6px;box-shadow:0 12px 40px rgba(0,0,0,0.15);width:76%;height:80%;display:flex;align-items:flex-start;justify-content:center;overflow:hidden;transform-origin:center top;transition:transform 700ms cubic-bezier(.2,.9,.3,1), height 700ms}
+.parchment-inner{padding:28px;overflow:auto;height:100%;box-sizing:border-box}
+.scroll-title{font-size:36px;margin:0 0 12px 0;color:#b23a6a}
+
+/* rolled (closed) state — squash the parchment to look rolled */
+.scroll:not(.open) .parchment{transform:scaleY(0.06);height:40px}
+.scroll.open .parchment{transform:scaleY(1);height:80%}
+
+/* parchment texture & animated shadow */
+.parchment{position:relative;transition:transform 900ms cubic-bezier(.22,.9,.29,1),height 900ms,box-shadow 900ms}
+.parchment::before{content:"";position:absolute;inset:0;pointer-events:none;opacity:0;transition:opacity 900ms}
+.parchment::before{background-image:linear-gradient(rgba(255,250,240,0.4),rgba(255,245,230,0.25)), url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)' opacity='0.03' fill='%23ffffff'/></svg>");background-repeat:repeat;background-size:200px 200px;background-blend-mode:overlay}
+.scroll.open .parchment::before{opacity:1}
+.scroll.open .parchment{box-shadow:0 30px 80px rgba(0,0,0,0.32)}
+
+/* ensure video fits inside parchment */
+.parchment .video-container{display:flex;align-items:center;justify-content:center;margin-top:12px}
+.parchment .video-container video{max-width:100%;max-height:320px;object-fit:contain;border-radius:6px}
+
+/* button styling */
+#toggleScroll{padding:10px 16px;border-radius:8px;border:1px solid #d98ca1;background:#ff7b9c;color:#fff;cursor:pointer}
+
+@media (max-width:700px){
+    .scroll{flex-direction:column;height:auto}
+    .parchment{width:95%;height:auto}
+    .scroll:not(.open) .parchment{transform:none;height:auto}
+    .rod{display:none}
+}
+
+/* Cover leaf styles */
+.cover-leaf{position:absolute;right:0;top:0;width:50%;height:100%;transform-style:preserve-3d;transform-origin:right center;transition:transform 900ms cubic-bezier(.2,.9,.3,1);z-index:6;box-shadow:0 10px 30px rgba(0,0,0,0.12)}
+.cover-leaf .page{position:absolute;inset:0;padding:28px;display:flex;align-items:center;justify-content:center}
+.cover-front{font-size:48px;font-weight:700;color:#b23a6a}
+.cover-back{background:linear-gradient(#fff,#fff7f9)}
+.cover-leaf.opened{transform:rotateY(-180deg)}
+
+/* when cover is closed, prevent inner pages interaction */
+.book:not(.cover-open) .leaf{pointer-events:none}
+.book.cover-open .leaf{pointer-events:auto}
+
+@media (max-width:900px){
+    .cover-leaf{position:relative;width:100%;height:auto;transform:none;box-shadow:none}
+    .cover-front{font-size:32px}
+}

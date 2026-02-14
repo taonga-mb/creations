@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ba Chips.</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <main>
+        <div class="scroll-wrap">
+            <div class="scroll" id="scroll">
+                <div class="rod left-rod"></div>
+                <div class="parchment" id="parchment">
+                    <div class="parchment-inner">
+                        <h1 class="scroll-title">heyyy</h1>
+                        <h2>Have a wonderful valentines day...</h2>
+                        <p>Ndiwe Munzanga, hope uliche ❤️.<br>
+                        just kidding, wishing you the most splendid of days ahead.<br>
+                        yours truly, T.</p>
+
+                        <div class="video-container">
+                            <video controls>
+                                <source src="videos/new chips.mp4" type="video/mp4">
+                            </video>
+                        </div>
+                    </div>
+                </div>
+                <div class="rod right-rod"></div>
+            </div>
+
+            <div style="text-align:center; margin-top:18px;">
+                <button id="toggleScroll">UnRoll</button>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        (function(){
+            const scroll = document.getElementById('scroll');
+            const btn = document.getElementById('toggleScroll');
+            const parchment = document.getElementById('parchment');
+
+            // start rolled (closed)
+            scroll.classList.remove('open');
+
+            btn.addEventListener('click', async ()=>{
+                scroll.classList.toggle('open');
+                const opened = scroll.classList.contains('open');
+                btn.setAttribute('aria-pressed', opened ? 'true' : 'false');
+
+                // video autoplay/pause handling
+                const video = parchment.querySelector('video');
+                if(video){
+                    if(opened){
+                        // try to play; if blocked, attempt muted play
+                        try{ await video.play(); }
+                        catch(_){
+                            try{ video.muted = true; await video.play(); }
+                            catch(__){}
+                        }
+                    } else {
+                        try{ video.pause(); video.currentTime = 0; video.muted = false; }
+                        catch(e){}
+                    }
+                }
+            });
+        })();
+    </script>
+</body>
+</html>
